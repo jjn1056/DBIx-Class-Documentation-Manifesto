@@ -1,0 +1,83 @@
+package DBIx::Class::Documentation::Manifesto;
+
+1;
+
+=head1 DBIC Development Manifesto
+
+DBIx::Class has become one of the more important and durable elements in the Modern Perl toolkit.  As a result managing development and releases is of great concern to many in our community.  DBIC core developers would like to formalize how this project is managed going forward so that we can find a way that both respects our concern for backward compatibility and yet opens the door to greater community participation.  Our goal in doing so is to improve communication and enhance transparency. 
+
+=head1 Support Policy
+
+The latest stable release will be considered the officially supported version of DBIC.  The DBIC team will only consider patches on the latest stable version of the code.  Anything else would be considered new development (see, “Proposing New Features”, below).
+
+DBIC is supported primarily via our IRC channel (#dbix-class on irc.perl.org).  We have a mailing list, but preference is given to IRC, since we have limited time (as we are all volunteers).
+
+=head1 Release Schedule
+
+=head1 Since DBIC is coded almost exclusively by volunteers it is difficult, if not impossible, to impose a strict timetable for releases.  Additionally, the pace of stable releases is in some fashion dictated by the DBIC core team wish to give downstream package maintainers (such as those who package DBIC into RPMs, DEBs, etc.) enough time to prepare and properly support those packages.
+
+However we recognize that some rules around release schedules, as well as some predictability is necessary if we want to better communication with the DBIC user community at large.  This is turn will help our community members become better advocates for DBIC.
+
+As a result, the DBIC core team will endeavor to follow these rules going forward:
+
+1)	New stable releases will arrive no more than a few times per year.  Point increments on stable releases will be constrained to critical bug fixes and security issues.
+2)	Trial releases will arrive when new features and improvements have reached the point where we have a reasonable expectation that the code could be stable.  Own goal is to release trial versions approximately monthly, although we can release a trial at any point that we feel something is useful or necessary.  For example if we release a trial with a major issue, we might immediately release another version to solve that.  A trial release has changes with solid test cases that pass on a number of platforms and that at least one other advance core DBIC team member has reviewed.  Trial releases are ready to be more heavily subjected to the CPAN testers and can be installed via CPAN for advanced DBIC users who want to help us test or who want those new features and are willing and able to code dive should problems emerge.
+
+Trial releases are not officially supported.  Should issues be found, patches would be accepted toward the next trial release, not as a point release on the existing trial.  We will attempt to prioritize bug fixes on trial releases over new feature development, but under bug fixes on stable releases.
+
+A trial release would be a release of DBIC that one can install via CPAN (but not intended to be packages by downstream maintainers), has a reasonable expectation of working, but might have some edge cases, particularly on less popular platforms.  Trial releases should not be used for production, but could be used for new development, particularly if you feel you are advanced enough to know when you have found a DBIC bug (versus a bug in your code).
+
+=head1 Proposing New Features
+
+DBIC is intended to be an extensible and living system, one that continues to grow and change as Perl grows and changes.  We hope to keep DBIC fresh and modern, which means over time as it bounces around the Brownian motion chaos of open source, it can be constantly reinvigorated and kept relevant.  However, we do believe there is such as thing as a DBIC ‘identity’.  DBIC’s identity is defining and something that evolves most slowly, as to promote a sense of stability.
+
+	[ribashushi: I need some things about core DBIC identity]
+
+As a result, when proposing new features to DBIC, consider carefully if this proposal feels like something that belongs to DBIC core, or should live as part of the growing, but detached DBIx::Class namespace, as a component or external system.
+
+If you are still sure your new proposal conforms to the general idea of ‘this belongs in DBIC core’, here’s the process you should follow:
+
+Write a one sentence user story for your proposal, following this template: “As a (role) I want (something) so that (benefit).”  For example:  “As a developer I want baked in support for non-blocking queries so that I can write better asynchronous code”.
+
+A good user story is something that can be challenged, and that clearly asserts its goal in non-technical language.  The idea here is that this should be something that all members of our community can discuss, not just the hard-core hackers.  Remember the goal is to increase participation, not decrease it.
+
+The one sentence story should be followed by a more detailed description of the problem you are trying to solve.  This could include a possible discussion of current workarounds.  Ideally you should propose syntax and possible test cases in order to clarify your thinking.
+
+This detailed description should include enough information so that even a moderately skilled DBIC programmer can understand it (and ideally be able to perform the work).
+
+Here’s an example of a details block that would follow the above example user story:
+
+Many Perl programmers are interested in writing more asynchronous code.  Good support for non-blocking webservers and new development practices inspired by buzz around projects like node.js makes it desirable to be able to take better advantage of these techniques in DBIC.  Although workarounds involving forking and job queues do exist, the functionality is not exactly the same.  Furthermore, there is some intangible but valuable PR effect from having this baked in.
+
+Good asynchronous support in DBIC would mean that anytime we actually execute sql code, that execution takes place in a non-blocking manner.
+
+Ideally we’d play nice with existing popular event frameworks for Perl, such as POE, Anyevent, etc. and use cases would include running in a web application using Plack support for non blocking servers.
+
+Example syntax:
+
+    $rs->async_all( sub {
+      my ($rs, @results) = @_;
+    });
+
+Example simple test case:
+
+    >my @log;
+
+    $rs->async_all( sub {
+      push @log, ‘finished query’;
+    });
+
+    push @log, ‘async code’;
+
+    is $log[1], ‘finished query’, ‘expected order’;
+
+Once you have written your proposal you can float it to the DBIC core group, who will vote on the proposal and assign one of the following statuses:
+
+Accepted:  We like the idea and will discuss it during our regular backlog meetups
+Interesting – But not Core: We like the idea but we don’t believe it belongs in DBIC core
+Rejected - Not enough details: Your proposal needs work before we can consider it again
+Uninterested: We have not strong feelings about the proposal other than it doesn’t belong in DBIC core.
+
+
+
+
