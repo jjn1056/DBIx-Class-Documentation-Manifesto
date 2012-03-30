@@ -14,7 +14,7 @@ DBIC is supported primarily via our IRC channel (#dbix-class on irc.perl.org).  
 
 =head1 Release Schedule
 
-=head1 Since DBIC is coded almost exclusively by volunteers it is difficult, if not impossible, to impose a strict timetable for releases.  Additionally, the pace of stable releases is in some fashion dictated by the DBIC core team wish to give downstream package maintainers (such as those who package DBIC into RPMs, DEBs, etc.) enough time to prepare and properly support those packages.
+Since DBIC is coded almost exclusively by volunteers it is difficult, if not impossible, to impose a strict timetable for releases.  Additionally, the pace of stable releases is in some fashion dictated by the DBIC core team wish to give downstream package maintainers (such as those who package DBIC into RPMs, DEBs, etc.) enough time to prepare and properly support those packages.
 
 However we recognize that some rules around release schedules, as well as some predictability is necessary if we want to better communication with the DBIC user community at large.  This is turn will help our community members become better advocates for DBIC.
 
@@ -80,4 +80,4 @@ Uninterested: We have not strong feelings about the proposal other than it doesn
 
 
 
-
+=cut
